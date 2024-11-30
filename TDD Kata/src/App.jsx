@@ -28,20 +28,21 @@ function App() {
 
 		if(input.length) {
 			if(input.includes(delimiter) || input.includes('\n')) {
-				const numbersWithComma = input.split('\n');
-				numbersWithComma.forEach(num => {
-					if(num.includes(delimiter)) {
-						num.split(delimiter).forEach((n) => {
-							if(n.match(negativeRegex)) {
-								negativeNumbers.push(n.match(negativeRegex))
+				const delimetedNumbers = input.split('\n');
+				delimetedNumbers.forEach(delimetedNumber => {
+					if(delimetedNumber.includes(delimiter)) {
+						delimetedNumber.split(delimiter).forEach((number) => {
+							if(number.match(negativeRegex)) {
+								negativeNumbers.push(number.match(negativeRegex))
 							}
 							})
-						sum += num.split(delimiter)
-						.map((n) => parseFloat(n.trim()))
-						.filter((n) => !isNaN(n))
-						.reduce((acc, n) => acc+n, 0);
-					} else if(!isNaN(num)) {
-						sum += +num;
+						
+						sum += delimetedNumber.split(delimiter)
+						.map((number) => parseFloat(number.trim()))
+						.filter((number) => !isNaN(number))
+						.reduce((acc, number) => acc+number, 0);
+					} else if(!isNaN(delimetedNumber)) {
+						sum += +delimetedNumber;
 					}
 				});
 			} else if(!isNaN(input)) {
