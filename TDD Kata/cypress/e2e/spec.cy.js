@@ -58,3 +58,12 @@ describe('Delimiter support', () => {
 		cy.get('p.result').should('have.text', '3');
 	})
 })
+
+describe('Negative number check', () => {
+	it('should check error - negative numbers', () => {
+  		cy.visit('http://localhost:5173/');
+  		cy.get('textarea[name="input"]').type("-1,2");
+  		cy.get('form').submit();
+		cy.get('p.result').should('have.text', 'negative numbers not allowed -1');
+	})
+})

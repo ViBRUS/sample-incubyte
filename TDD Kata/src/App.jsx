@@ -3,25 +3,38 @@ import { useState, useEffect } from "react";
 
 function App() {
 	const [input, setInput] = useState('');
-	const [delimiter, setDelimiter] = useState('');
+	const [delimiter, setDelimiter] = useState(',');
 	const [result, setResult] = useState(0);
+
+	useEffect(() => {
+		const delimiterRegex = /\/\/(.*?)(\W)/;
+		if(input.length) {
+			const delimiterMatch = input.match(delimiterRegex);
+       		if(delimiterMatch) {
+				   setDelimiter(delimiterMatch[2]);
+        	} else {
+				setDelimiter(',');
+        	}
+		}
+	}, [input]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		let sum = +result;
-		const regex = /\/\/(.*?)(\W)/;
+
+		const negativeRegex = /-\d+(\.\d+)?/g;
+		const negativeNumbers = [];
 
 		if(input.length) {
-			const match = input.match(regex);
-			if(match) {
-				setDelimiter(match[2]);
-			} else {
-				setDelimiter(',');
-			}
 			if(input.includes(delimiter) || input.includes('\n')) {
 				const numbersWithComma = input.split('\n');
 				numbersWithComma.forEach(num => {
 					if(num.includes(delimiter)) {
+						num.split(delimiter).forEach((n) => {
+							if(n.match(negativeRegex)) {
+								negativeNumbers.push(n.match(negativeRegex))
+							}
+							})
 						sum += num.split(delimiter)
 						.map((n) => parseFloat(n.trim()))
 						.filter((n) => !isNaN(n))
@@ -34,7 +47,11 @@ function App() {
 				sum += +input
 			}
 		}
-		setResult(sum);
+		if(negativeNumbers.length > 0) {
+			setResult(`negative numbers not allowed ${negativeNumbers.join(', ')}`);
+		} else {
+			setResult(sum);
+		}
 	};
 
   return (
