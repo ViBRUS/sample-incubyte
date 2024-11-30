@@ -1,19 +1,20 @@
 import './App.css'
 import { useState, useEffect } from "react";
+import constants from "./constants";
 
 function App() {
 	const [input, setInput] = useState('');
-	const [delimiter, setDelimiter] = useState(',');
+	const [delimiter, setDelimiter] = useState(constants.DEFAULT_DELIMITER);
 	const [result, setResult] = useState(0);
 
 	useEffect(() => {
-		const delimiterRegex = /\/\/(.*?)(\W)/;
+		const delimiterRegex = constants.REGEX.DELIMITER;
 		if(input.length) {
 			const delimiterMatch = input.match(delimiterRegex);
        		if(delimiterMatch) {
 				   setDelimiter(delimiterMatch[2]);
         	} else {
-				setDelimiter(',');
+				setDelimiter(constants.DEFAULT_DELIMITER);
         	}
 		}
 	}, [input]);
@@ -22,7 +23,7 @@ function App() {
 		e.preventDefault();
 		let sum = +result;
 
-		const negativeRegex = /-\d+(\.\d+)?/g;
+		const negativeRegex = constants.REGEX.NEGATIVE_NUMBER;
 		const negativeNumbers = [];
 
 		if(input.length) {
