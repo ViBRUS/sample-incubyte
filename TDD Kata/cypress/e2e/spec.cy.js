@@ -1,3 +1,10 @@
+describe('Default state', () => {
+  it('should show 0 initially as no input provided', () => {
+  	cy.visit('http://localhost:5173/');
+  	cy.get('p.result').should('have.text', '0');
+  })
+})
+
 describe('provided input', () => {
   it('should check if input box is editable', () => {
   	cy.visit('http://localhost:5173/');
