@@ -4,7 +4,9 @@ function App() {
 
   return (
     <>
-      Initial
+    <form>
+      <input type="text" data-testid="input-field" />
+    </form>
     </>
   )
 }
